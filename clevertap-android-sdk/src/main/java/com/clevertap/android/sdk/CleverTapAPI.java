@@ -36,10 +36,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.android.installreferrer.api.InstallReferrerClient;
@@ -5394,6 +5395,29 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             }
         } catch (Throwable t) {
             // We won't get here
+        }
+    }
+
+    public static void pushNewToken(Context context, String fcmId){
+        if (instances == null) {
+            CleverTapAPI.createInstanceIfAvailable(context.getApplicationContext(), null);
+        }
+
+        if (instances == null) {
+            Logger.v("Instances is null in pushNewToken!");
+            return;
+        }
+
+        for (String accountId : CleverTapAPI.instances.keySet()) {
+            CleverTapAPI instance = CleverTapAPI.instances.get(accountId);
+            try {
+                if (instance != null) {
+                    Logger.v("Pushing token from onNewToken");
+                    instance.pushFcmRegistrationId(fcmId,true);
+                }
+            } catch (Throwable t) {
+                Logger.v("Throwable - " + t.getLocalizedMessage());
+            }
         }
     }
 

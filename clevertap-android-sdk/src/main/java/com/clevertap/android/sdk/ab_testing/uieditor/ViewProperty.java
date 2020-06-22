@@ -1,6 +1,7 @@
 package com.clevertap.android.sdk.ab_testing.uieditor;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 class ViewProperty {
     public final String name;
