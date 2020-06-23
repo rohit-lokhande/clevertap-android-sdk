@@ -1,6 +1,9 @@
 package com.clevertap.android.sdk;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,5 +30,12 @@ public class FcmMessageListenerService extends FirebaseMessagingService {
             Logger.d("Error parsing FCM message", t);
         }
         Logger.d("Reached end of FCM Listener");
+    }
+
+    @Override
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+        Logger.d("New token received from FCM - "+token);
+        CleverTapAPI.pushNewToken(getApplicationContext(),token);
     }
 }
