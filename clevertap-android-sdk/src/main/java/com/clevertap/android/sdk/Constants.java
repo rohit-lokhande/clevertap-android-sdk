@@ -227,12 +227,6 @@ public class Constants {
     public static final String TEST_IDENTIFIER = "0_0";
     public static final String FEATURE_DISPLAY_UNIT = "DisplayUnit : ";
 
-    public static final String ACTION_CT_LOCAL_EVENT = "ACTION_CT_LOCAL_EVENT";
-    public static final String KEY_CT_LOCAL_EVENT = "ACTION_CT_LOCAL_EVENT";
-    public static final String CT_PUSH_AMP_SERVICE_START = "PushAmp Service Started";
-    public static final String CT_PUSH_AMP_PING_EVENT_SENT = "PushAmp Ping Sent";
-    public static final String CT_PUSH_AMP_PROCESS_RESPONSE = "PushAmp Ping Success";
-    public static final String CT_PUSH_AMP_NOTIFICATION_CREATED = "PushAmp Notification Created";
     public static final String FEATURE_FLAG_UNIT = "Feature Flag : ";
     public static final String LOG_TAG_PRODUCT_CONFIG = "Product Config : ";
     public static final int FETCH_TYPE_PC = 0;

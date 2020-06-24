@@ -2790,12 +2790,12 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             performHandshakeForDomain(context, eventGroup, new Runnable() {
                 @Override
                 public void run() {
-                    flushDBQueue(context, eventGroup, isBgPing);
+                    flushDBQueue(context, eventGroup);
                 }
             });
         } else {
             getConfigLogger().verbose(getAccountId(), "Pushing Notification Viewed event onto queue DB flush");
-            flushDBQueue(context, eventGroup, isBgPing);
+            flushDBQueue(context, eventGroup);
         }
     }
 
@@ -2989,7 +2989,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
         return "ARP:" + accountId + ":" + getCleverTapID();
     }
 
-    private void flushDBQueue(final Context context, final EventGroup eventGroup, boolean isBgPing) {
+    private void flushDBQueue(final Context context, final EventGroup eventGroup) {
         getConfigLogger().verbose(getAccountId(), "Somebody has invoked me to send the queue to CleverTap servers");
 
         QueueCursor cursor;
@@ -3013,7 +3013,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
                 break;
             }
 
-            loadMore = sendQueue(context, eventGroup, queue, isBgPing);
+            loadMore = sendQueue(context, eventGroup, queue);
         }
     }
 
@@ -3101,7 +3101,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
     /**
      * @return true if the network request succeeded. Anything non 200 results in a false.
      */
-    private boolean sendQueue(final Context context, final EventGroup eventGroup, final JSONArray queue, boolean isBgPing) {
+    private boolean sendQueue(final Context context, final EventGroup eventGroup, final JSONArray queue) {
 
         if (queue == null || queue.length() <= 0) return false;
 
@@ -3134,8 +3134,6 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             getConfigLogger().debug(getAccountId(), "Sending queue to: " + endpoint);
             conn.setDoOutput(true);
             // noinspection all
-            if (isBgPing)
-                PushAmpDiagnosticUtil.raiseEvent(context, Constants.CT_PUSH_AMP_PING_EVENT_SENT);
             conn.getOutputStream().write(req.getBytes("UTF-8"));
 
             final int responseCode = conn.getResponseCode();
@@ -3166,7 +3164,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
                     sb.append(line);
                 }
                 body = sb.toString();
-                processResponse(context, body, isBgPing);
+                processResponse(context, body);
             }
 
             setLastRequestTimestamp(context, currentRequestTimestamp);
@@ -3398,14 +3396,12 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
     }
 
     //Event
-    private void processResponse(final Context context, final String responseStr, boolean isBgPing) {
+    private void processResponse(final Context context, final String responseStr) {
         if (responseStr == null) {
             getConfigLogger().verbose(getAccountId(), "Problem processing queue response, response is null");
             return;
         }
         try {
-            if (isBgPing)
-                PushAmpDiagnosticUtil.raiseEvent(context, Constants.CT_PUSH_AMP_PROCESS_RESPONSE);
             getConfigLogger().verbose(getAccountId(), "Trying to process response: " + responseStr);
 
             JSONObject response = new JSONObject(responseStr);
@@ -5803,9 +5799,6 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
 
         getConfigLogger().debug("Recording Notification Viewed event for notification:  " + extras.toString());
 
-        boolean isBgPing = extras.getBoolean("isBgPing");
-        if(isBgPing)
-            PushAmpDiagnosticUtil.raiseEvent(context, Constants.CT_PUSH_AMP_NOTIFICATION_CREATED);
         JSONObject event = new JSONObject();
         try {
             JSONObject notif = getWzrkFields(extras);

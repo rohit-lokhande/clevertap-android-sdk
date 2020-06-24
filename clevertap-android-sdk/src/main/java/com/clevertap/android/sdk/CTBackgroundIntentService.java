@@ -20,7 +20,6 @@ public class CTBackgroundIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        PushAmpDiagnosticUtil.raiseEvent(getApplicationContext(), Constants.CT_PUSH_AMP_SERVICE_START);
         CleverTapAPI.runBackgroundIntentService(getApplicationContext());
     }
 }
