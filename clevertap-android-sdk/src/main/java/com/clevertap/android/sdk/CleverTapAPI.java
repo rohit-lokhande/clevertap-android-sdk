@@ -6589,16 +6589,17 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
 
     /**
      * Utility method to check if a notification is already rendered.
-     * Apps can use this method to dedup notifications.
+     * Apps can use this method to de-dup notifications.
+     * @param extras- Notification payload received
+     * @param listener - Listener to receieve the callback.
      */
-
-    public void isPushNotificationRendered(final String id,final CTCustomNotificationListener listener){
-        if(listener!= null && !TextUtils.isEmpty(id)){
+    public void isPushNotificationRendered(final Bundle extras,final CTCustomNotificationListener listener){
+        if(listener!= null && extras!= null && !TextUtils.isEmpty(extras.getString(Constants.WZRK_PUSH_ID))){
             postAsyncSafely("CleverTapAPI#isPushNotificationRendered", new Runnable() {
                 @Override
                 public void run() {
                     dbAdapter = loadDBAdapter(context);
-                    final boolean isAlreadyRendered = dbAdapter.doesPushNotificationIdExist(id);
+                    final boolean isAlreadyRendered = dbAdapter.doesPushNotificationIdExist(extras.getString(Constants.WZRK_PUSH_ID));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
