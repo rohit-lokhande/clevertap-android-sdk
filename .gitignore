@@ -9,3 +9,4 @@ docs
 build/
 .gradle/
 AndroidStarter/keys.txt
+github.properties
