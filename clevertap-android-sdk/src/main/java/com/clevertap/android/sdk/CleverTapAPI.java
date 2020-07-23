@@ -36,10 +36,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.android.installreferrer.api.InstallReferrerClient;
@@ -585,6 +585,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
         String accountId = manifest.getAccountId();
         String accountToken = manifest.getAcountToken();
         String accountRegion = manifest.getAccountRegion();
+        String proxyDomain = manifest.getProxyDomain();
         if (accountId == null || accountToken == null) {
             Logger.i("Account ID or Account token is missing from AndroidManifest.xml, unable to create default instance");
             return null;
@@ -593,8 +594,8 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             Logger.i("Account Region not specified in the AndroidManifest - using default region");
         }
 
-        return CleverTapInstanceConfig.createDefaultInstance(context, accountId, accountToken, accountRegion);
-
+        return CleverTapInstanceConfig.createDefaultInstance(
+                context, accountId, accountToken, proxyDomain, accountRegion);
     }
 
     //Push
@@ -1447,7 +1448,19 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
      */
     @SuppressWarnings("unused")
     public static void changeCredentials(String accountID, String token) {
-        changeCredentials(accountID, token, null);
+        changeCredentials(accountID, token, null, null);
+    }
+
+    /**
+     * This method is used to change the credentials of CleverTap account Id and token programmatically
+     *
+     * @param accountID CleverTap Account Id
+     * @param token     CleverTap Account Token
+     * @param proxy     CleverTap proxy domain url
+     */
+    @SuppressWarnings("unused")
+    public static void changeCredentials(String accountID, String token, String proxy) {
+        changeCredentials(accountID, token, null, proxy);
     }
 
     /**
@@ -1456,9 +1469,10 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
      * @param accountID CleverTap Account Id
      * @param token     CleverTap Account Token
      * @param region    Clever Tap Account Region
+     * @param proxy     Clever Tap proxy domain  url if any
      */
     @SuppressWarnings({"unused", "WeakerAccess"})
-    public static void changeCredentials(String accountID, String token, String region) {
+    public static void changeCredentials(String accountID, String token, String region, String proxy) {
         if (defaultConfig != null) {
             Logger.i("CleverTap SDK already initialized with accountID:" + defaultConfig.getAccountId()
                     + " and token:" + defaultConfig.getAccountToken() + ". Cannot change credentials to "
@@ -1466,7 +1480,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             return;
         }
 
-        ManifestInfo.changeCredentials(accountID, token, region);
+        ManifestInfo.changeCredentials(accountID, token, region, proxy);
     }
 
     static void runJobWork(Context context, JobParameters parameters) {
@@ -1764,6 +1778,10 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
 
     private String getAccountId() {
         return config.getAccountId();
+    }
+
+    private String getProxyDomain() {
+        return config.getProxyDomain();
     }
 
     //Util
@@ -2891,8 +2909,15 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
             return null;
         }
 
-        String endpoint = "https://" + domain + "?os=Android&t=" + this.deviceInfo.getSdkVersion();
-        endpoint += "&z=" + accountId;
+        //here we redirect to our domain and add this domain as url param
+        final String proxyDomain = getProxyDomain();
+        String endpoint = "https://";
+        if(TextUtils.isEmpty(proxyDomain)) {
+            endpoint += domain + "?os=Android";
+        } else {
+            endpoint += proxyDomain + "?os=Android&rt=" + domain;
+        }
+        endpoint += "&t=" + this.deviceInfo.getSdkVersion() + "&z=" + accountId;
 
         final boolean needsHandshake = needsHandshakeForDomain(eventGroup);
         // Don't attach ts if its handshake
@@ -2917,7 +2942,7 @@ public class CleverTapAPI implements CTInAppNotification.CTInAppNotificationList
         conn.setRequestProperty("X-CleverTap-Account-ID", getAccountId());
         conn.setRequestProperty("X-CleverTap-Token", this.config.getAccountToken());
         conn.setInstanceFollowRedirects(false);
-        if (this.config.isSslPinningEnabled()) {
+        if (this.config.isSslPinningEnabled() && TextUtils.isEmpty(this.config.getProxyDomain())) {
             SSLContext _sslContext = getSSLContext();
             if (_sslContext != null)
                 conn.setSSLSocketFactory(getPinnedCertsSslSocketfactory(_sslContext));

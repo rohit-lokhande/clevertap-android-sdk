@@ -9,6 +9,7 @@ class ManifestInfo {
     private static String accountId;
     private static String accountToken;
     private static String accountRegion;
+    private static String proxyDomain;
     private static boolean useADID;
     private static boolean appLaunchedDisabled;
     private static String notificationIcon;
@@ -49,6 +50,8 @@ class ManifestInfo {
             accountToken = _getManifestStringValueForKey(metaData, Constants.LABEL_TOKEN);
         if(accountRegion==null)
             accountRegion = _getManifestStringValueForKey(metaData, Constants.LABEL_REGION);
+        if(proxyDomain==null)
+            proxyDomain = _getManifestStringValueForKey(metaData, Constants.LABEL_PROXY_DOMAIN);
         notificationIcon = _getManifestStringValueForKey(metaData,Constants.LABEL_NOTIFICATION_ICON);
         useADID = "1".equals(_getManifestStringValueForKey(metaData, Constants.LABEL_USE_GOOGLE_AD_ID));
         appLaunchedDisabled = "1".equals(_getManifestStringValueForKey(metaData, Constants.LABEL_DISABLE_APP_LAUNCH));
@@ -84,6 +87,10 @@ class ManifestInfo {
 
     String getAccountRegion(){
         return accountRegion;
+    }
+
+    String getProxyDomain(){
+        return proxyDomain;
     }
 
     String getFCMSenderId() {
@@ -126,9 +133,10 @@ class ManifestInfo {
         return intentServiceName;
     }
 
-    static void changeCredentials(String id, String token, String region){
+    static void changeCredentials(String id, String token, String region, String proxy){
         accountId = id;
         accountToken = token;
         accountRegion = region;
+        proxyDomain = proxy;
     }
 }

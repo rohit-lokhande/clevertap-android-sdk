@@ -12,6 +12,7 @@ public class Constants {
     static final String LABEL_NOTIFICATION_ICON = "CLEVERTAP_NOTIFICATION_ICON";
     static final String LABEL_INAPP_EXCLUDE = "CLEVERTAP_INAPP_EXCLUDE";
     static final String LABEL_REGION = "CLEVERTAP_REGION";
+    static final String LABEL_PROXY_DOMAIN = "CLEVERTAP_PROXY_DOMAIN";
     static final String LABEL_DISABLE_APP_LAUNCH = "CLEVERTAP_DISABLE_APP_LAUNCHED";
     static final String LABEL_SSL_PINNING = "CLEVERTAP_SSL_PINNING";
     static final String LABEL_BACKGROUND_SYNC = "CLEVERTAP_BACKGROUND_SYNC";
@@ -129,6 +130,7 @@ public class Constants {
     static final String KEY_ACCOUNT_ID = "accountId";
     static final String KEY_ACCOUNT_TOKEN = "accountToken";
     static final String KEY_ACCOUNT_REGION = "accountRegion";
+    static final String KEY_PROXY_DOMAIN = "proxyDomain";
     static final String KEY_ANALYTICS_ONLY = "analyticsOnly";
     static final String KEY_DEFAULT_INSTANCE = "isDefaultInstance";
     static final String KEY_USE_GOOGLE_AD_ID = "useGoogleAdId";
