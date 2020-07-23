@@ -53,7 +53,6 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 29
-        versionName libraryVersion
     }
 
     buildTypes {
@@ -94,26 +93,26 @@ if (project.rootProject.file('local.properties').exists()){
 }
 
 
-//bintray {
-//    user = properties.getProperty("bintray.user")
-//    key = properties.getProperty("bintray.apikey")
-//
-//    configurations = ['archives']
-//    pkg {
-//        repo = bintrayRepo
-//        name = bintrayName
-//        userOrg = org
-//        desc = libraryDescription
-//        websiteUrl = siteUrl
-//        vcsUrl = gitUrl
-//        licenses = allLicenses
-//        publish = true
-//        publicDownloadNumbers = true
-//        version {
-//            desc = libraryDescription
-//        }
-//    }
-//}
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = org
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+        }
+    }
+}
 
 install {
     repositories.mavenInstaller {
@@ -190,31 +189,4 @@ task sourcesJar(type: Jar) {
 
 artifacts {
     archives sourcesJar
-}
-
-
-//Setup for github packages
-def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
-
-publishing {
-    publications {
-        clevertap(MavenPublication) {
-            groupId publishedGroupId
-            artifactId artifact
-            version libraryVersion
-            artifact("$buildDir/outputs/aar/${artifact}-${libraryVersion}.aar")
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/nurture-farm/clevertap-android-sdk")
-            credentials {
-                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
-                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
-            }
-        }
-    }
 }
