@@ -19,10 +19,14 @@
         <!-- Add meta data for CleverTap Account Id and Account Token-->
         <meta-data
             android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="RWW-WWW-WWWZ" />
+            android:value="TEST-79R-KR8-R95Z" />
         <meta-data
             android:name="CLEVERTAP_TOKEN"
-            android:value="000-002" />
+            android:value="TEST-b23-2ca" />
+        <meta-data
+            android:name="CLEVERTAP_PROXY_DOMAIN"
+            android:value="stag.nurture.farm/platform/event-portal" />
+
         <meta-data
             android:name="CLEVERTAP_REGION"
             android:value="eu1" />
