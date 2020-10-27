@@ -3,10 +3,12 @@
 local.properties
 bin
 gen
-docs
 *.iml
 .idea
 build/
 .gradle/
+*.exec
 AndroidStarter/keys.txt
 github.properties
+docs
+
