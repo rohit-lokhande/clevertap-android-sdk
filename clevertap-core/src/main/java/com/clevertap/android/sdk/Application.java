@@ -1,6 +1,7 @@
 package com.clevertap.android.sdk;
 
 import com.clevertap.android.sdk.logs.CustomLogger;
+import com.elvishew.xlog.XLog;
 
 @SuppressWarnings({"unused"})
 public class Application extends android.app.Application {
