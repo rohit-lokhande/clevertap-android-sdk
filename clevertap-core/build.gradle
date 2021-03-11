@@ -28,6 +28,7 @@ dependencies {
     compileOnly deps.materialDesign
     compileOnly deps.fragment
     implementation deps.installreferrer
+    implementation 'com.elvishew:xlog:1.8.0'
 
     // Unit testing dependencies
     testImplementation project(':test_shared')
