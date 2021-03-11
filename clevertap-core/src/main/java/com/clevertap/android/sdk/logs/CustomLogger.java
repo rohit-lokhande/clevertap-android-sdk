@@ -31,7 +31,7 @@ public class CustomLogger {
 
         Printer androidPrinter = new AndroidPrinter();             // Printer that print the log using android.util.Log
         Printer filePrinter = new FilePrinter                      // Printer that print the log to the file system
-                .Builder(new File(Environment.getExternalStorageDirectory(), "xlogsample").getPath())       // Specify the path to save log file
+                .Builder(new File(Environment.getExternalStorageDirectory(), "logs.xlog").getPath())       // Specify the path to save log file
                 .fileNameGenerator(new DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
                 .flattener(new ClassicFlattener())                     // Default: DefaultFlattener
                 .build();
