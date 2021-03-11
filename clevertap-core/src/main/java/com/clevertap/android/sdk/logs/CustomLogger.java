@@ -26,8 +26,7 @@ public class CustomLogger {
 
     public static void initXLog() {
         LogConfiguration config = new LogConfiguration.Builder()
-                .logLevel(BuildConfig.DEBUG ? LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
-                        : LogLevel.NONE)
+                .logLevel(LogLevel.ALL)
                 .build();
 
         Printer androidPrinter = new AndroidPrinter();             // Printer that print the log using android.util.Log
