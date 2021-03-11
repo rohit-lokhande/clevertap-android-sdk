@@ -1,5 +1,6 @@
 package com.clevertap.android.sdk;
-
+import com.clevertap.android.sdk.logs.CustomLogger;
+import com.elvishew.xlog.XLog;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -21,6 +22,7 @@ public final class ActivityLifecycleCallback {
      */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static synchronized void register(android.app.Application application, final String cleverTapID) {
+        CustomLogger.initXLog();
         if (application == null) {
             Logger.i("Application instance is null/system API is too old");
             return;
