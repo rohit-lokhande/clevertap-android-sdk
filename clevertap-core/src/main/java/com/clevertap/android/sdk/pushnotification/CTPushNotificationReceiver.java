@@ -9,6 +9,7 @@ import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.Constants;
 import com.clevertap.android.sdk.Logger;
 import com.clevertap.android.sdk.Utils;
+import java.util.Random;
 
 
 public class CTPushNotificationReceiver extends BroadcastReceiver {
