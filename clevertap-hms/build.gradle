@@ -21,7 +21,6 @@ dependencies {
     implementation deps.huaweiPush
     compileOnly deps.androidXAnnotation
 
-    testImplementation project(':test_shared')
     testImplementation deps.huaweiPush
     testImplementation deps.kotlinStdlib
     testImplementation deps.json
