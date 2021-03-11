@@ -8,8 +8,8 @@ public class Application extends android.app.Application {
 
     @Override
     public void onCreate() {
-        ActivityLifecycleCallback.register(this);
         CustomLogger.initXLog();
+        ActivityLifecycleCallback.register(this);
         super.onCreate();
     }
 }
