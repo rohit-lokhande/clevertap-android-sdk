@@ -5,6 +5,7 @@ import com.elvishew.xlog.LogConfiguration;
 import com.elvishew.xlog.LogLevel;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
 
 import com.elvishew.xlog.XLog;
@@ -24,14 +25,14 @@ public class CustomLogger {
 
     private static final long MAX_TIME = 1000 * 60 * 60 * 24 * 2; //
 
-    public static void initXLog() {
+    public static void initXLog(Context context) {
         LogConfiguration config = new LogConfiguration.Builder()
                 .logLevel(LogLevel.ALL)
                 .build();
 
         Printer androidPrinter = new AndroidPrinter();             // Printer that print the log using android.util.Log
         Printer filePrinter = new FilePrinter                      // Printer that print the log to the file system
-                .Builder(new File(Environment.getExternalStorageDirectory(), "logs.xlog").getPath())       // Specify the path to save log file
+                .Builder(new File(context.getExternalFilesDir(null), "logs.xlog").getPath())       // Specify the path to save log file
                 .fileNameGenerator(new DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
                 .flattener(new ClassicFlattener())                     // Default: DefaultFlattener
                 .build();

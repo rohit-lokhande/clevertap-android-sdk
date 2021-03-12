@@ -22,7 +22,7 @@ public final class ActivityLifecycleCallback {
      */
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static synchronized void register(android.app.Application application, final String cleverTapID) {
-        CustomLogger.initXLog();
+        CustomLogger.initXLog(application);
         if (application == null) {
             Logger.i("Application instance is null/system API is too old");
             return;
