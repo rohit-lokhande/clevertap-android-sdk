@@ -127,7 +127,7 @@ public class CleverTapInstanceConfig implements Parcelable {
         this.isDefaultInstance = isDefault;
         this.analyticsOnly = false;
         this.personalization = true;
-        this.debugLevel = CleverTapAPI.LogLevel.INFO.intValue();
+        this.debugLevel = CleverTapAPI.LogLevel.DEBUG.intValue();
         this.logger = new Logger(this.debugLevel);
         this.createdPostAppLaunch = false;
         this.enableABTesting = this.isDefaultInstance;

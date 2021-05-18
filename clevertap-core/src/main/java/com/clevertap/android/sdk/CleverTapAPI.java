@@ -183,7 +183,7 @@ public class CleverTapAPI implements CleverTapAPIListener {
 
     static boolean haveVideoPlayerSupport;
 
-    private static int debugLevel = CleverTapAPI.LogLevel.INFO.intValue();
+    private static int debugLevel = LogLevel.DEBUG.intValue();
 
     private static CleverTapInstanceConfig defaultConfig;
 
@@ -7046,7 +7046,7 @@ public class CleverTapAPI implements CleverTapAPIListener {
                 if (response.has("dbg_lvl")) {
                     final int debugLevel = response.getInt("dbg_lvl");
                     if (debugLevel >= 0) {
-                        CleverTapAPI.setDebugLevel(debugLevel);
+//                        CleverTapAPI.setDebugLevel(debugLevel);
                         getConfigLogger().verbose(getAccountId(),
                                 "Set debug level to " + debugLevel + " for this session (set by upstream)");
                     }
